@@ -70,7 +70,7 @@ def graph():
     graph_params = GraphParams(**request.values)
 
     tex_data = render_template(
-            "graph.tex.jinja2", params=graph_params)
+            "graph.tex", params=graph_params)
     tmp_dir_name = ""
 
     # this is a bad hack to get a temp file name (latex appends .pdf to this)
