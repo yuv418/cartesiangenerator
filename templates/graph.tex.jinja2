@@ -1,0 +1,60 @@
+\documentclass[oneside]{article}
+\usepackage[a4paper,
+            bindingoffset=0.2in,
+            left=<< params.margin_left >>in,
+            right=<< params.margin_right >>in,
+            top=<< params.margin_top >>in,
+            bottom=<< params.margin_bottom >>in,
+            footskip=.25in]{geometry}
+\usepackage{ifthen}
+\usepackage{tkz-base}
+\usepackage{tkz-euclide}
+\pagenumbering{gobble}
+\newcommand{\cartesianGraph}[6] {
+	\begin{tikzpicture}
+	   \tikzset{xaxe style/.style    =   {>  =   latex,  -}}
+	   \tikzset{yaxe style/.style    =   {>  =   latex,  -}}
+	   \tkzInit[xmax=#2,ymax=#4,xmin=#1,ymin=#3, xstep=#5, ystep=#6]
+	   \tkzSetUpAxis[line width=10pt, ]
+	   \tkzGrid
+		\tkzLabelX[orig=false, font=\large]
+		\tkzLabelY[orig=false, font=\large]
+		% \tikzset{xaxe style/.style={-}}
+		% \tikzset{yaxe style/.style={-}}
+		% \tkzDrawXY[left space=0.5]
+		\ifnum \numexpr#1 < 0 
+			\tkzRep[color=black, xnorm=#1/#5, ynorm=#3/#6, xlabel={}, ylabel={}]
+		\fi
+
+		\tkzRep[color=black, xnorm=#2/#5, ynorm=#4/#6, xlabel={}, ylabel={}]
+		\node [fill=white] {$\mathcal{O}$};
+	\end{tikzpicture}
+}
+
+\newcommand{\cartesianGraphSet}[8] {
+
+		% width
+		\foreach \i in {0,...,#2} 
+		{
+			% for some reason foreach gets cranky if we use it here
+			\begin{minipage}[c]{\fpeval{1/#1}\textwidth}
+				\resizebox{\textwidth}{!}{%
+					\cartesianGraph{#3}{#4}{#5}{#6}{#7}{#8}
+				}%
+			\end{minipage}%
+			\ifnum \numexpr#1 > 1
+				\begin{minipage}[c]{\fpeval{1/#1}\textwidth}
+					\resizebox{\textwidth}{!}{%
+						\cartesianGraph{#3}{#4}{#5}{#6}{#7}{#8}
+					}%
+				\end{minipage}%
+			\fi
+			\vspace{1cm}
+		}
+}
+
+\begin{document}
+	\begin{center}
+		\cartesianGraphSet{<< params.cols >>}{<< params.rows >>}{<< params.x_min >>}{<< params.x_max >>}{<< params.y_min >>}{<< params.y_max >>}{<< params.x_scale >>}{<< params.y_scale >>}
+	\end{center}
+\end{document}

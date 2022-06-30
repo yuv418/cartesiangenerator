@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+
+<html>
+	<head>
+		<title>Generate Graphs</title>
+	</head>
+	<body>
+		<h1>Generate Graph Paper</h1>
+		<% with messages = get_flashed_messages() %>
+			<% if messages %>
+				<% for message in messages %>
+					<p><< message >></p>
+				<% endfor %>
+			<% endif %>
+		<% endwith %>
+		<form method="GET" action="/graph">
+			<% for gfield in gfields %>
+				<div class="gfield">
+					<label for="<< gfield.name >>"><< gfield.name >></label>
+					<input name="<< gfield.name >>" 
+					<% if type_fn(gfield.default) != missing_type %>
+					value="<< gfield.default >>"
+					<% endif %>
+					/>
+				</div>
+			<% endfor %>
+			<input type="submit" value="Generate"/>
+		</form>
+	</body>
+</html>
