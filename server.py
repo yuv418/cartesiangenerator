@@ -84,7 +84,8 @@ def graph():
         proc.communicate(input=tex_data.encode())
 
         exitc = proc.wait()
-        print(exitc)
+        if exitc != 0:
+            return error_msg(f"internal error: latex failed to render", json=json)
         tmp_dir_name = tmp.name
 
     pdf_data = None
