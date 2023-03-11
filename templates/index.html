@@ -17,11 +17,18 @@
 			<% for gfield in gfields %>
 				<div class="gfield">
 					<label for="<< gfield.name >>"><< gfield.name >></label>
-					<input name="<< gfield.name >>" 
+					<input name="<< gfield.name >>"
 					<% if type_fn(gfield.default) != missing_type %>
 					value="<< gfield.default >>"
 					<% endif %>
+					<% if gfield.type == type_fn(True) %>
+					type="checkbox"
+					<% if gfield.default == True %>
+					checked
+					<% endif %>
+					<% endif %>
 					/>
+
 				</div>
 			<% endfor %>
 			<input type="submit" value="Generate"/>

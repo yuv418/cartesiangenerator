@@ -5,6 +5,7 @@ import tempfile
 import os
 import subprocess
 
+TEMPLATES_AUTO_RELOAD = True
 
 app = Flask(__name__)
 app.config["SECRET_KEY"] = os.environ.get("GGEN_SKEY") or "testing"
@@ -29,6 +30,9 @@ class GraphParams:
     margin_bottom: float = 0.5
     x_scale: int = 1
     y_scale: int = 1
+    label_x: bool = True
+    label_y: bool = True
+    label_origin: bool = True
 
 # full of dodgy hacks
 @app.route("/")
@@ -68,6 +72,11 @@ def graph():
             return error_msg(f"missing param {required_param}", json=json)
 
     graph_params = GraphParams(**request.values)
+    # process labels which are booleans. what's the point of a data class if you have to do these things
+    # manually?
+    for field in fields(graph_params):
+        if field.type == bool:
+            setattr(graph_params, field.name, True if getattr(graph_params, field.name) == 'True' else False)
 
     tex_data = render_template(
             "graph.tex", params=graph_params)

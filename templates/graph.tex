@@ -17,8 +17,15 @@
 	   \tkzInit[xmax=#2,ymax=#4,xmin=#1,ymin=#3, xstep=#5, ystep=#6]
 	   \tkzSetUpAxis[line width=10pt, ]
 	   \tkzGrid
+
+	    <% if params.label_x %>
 		\tkzLabelX[orig=false, font=\large]
-		\tkzLabelY[orig=false, font=\large]
+		<% endif %>
+
+	    <% if params.label_y %>
+	    \tkzLabelY[orig=false, font=\large]
+		<% endif %>
+
 		% \tikzset{xaxe style/.style={-}}
 		% \tikzset{yaxe style/.style={-}}
 		% \tkzDrawXY[left space=0.5]
@@ -27,7 +34,9 @@
 		\fi
 
 		\tkzRep[color=black, xnorm=#2/#5, ynorm=#4/#6, xlabel={}, ylabel={}]
+		<% if params.label_origin %>
 		\node [fill=white] {$\mathcal{O}$};
+		<% endif %>
 	\end{tikzpicture}
 }
 
